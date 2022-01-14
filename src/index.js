@@ -1,27 +1,26 @@
 import {error, success} from 'consola';
-import {ApolloServer, gql} from "apollo-server-express"
+import {ApolloServer} from "apollo-server-express";
+import {
+    ApolloServerPluginLandingPageGraphQLPlayground,
+    ApolloServerPluginLandingPageDisabled,
+    ApolloServerPluginDrainHttpServer
+} from "apollo-server-core";
+
 import express from 'express';
-import {PORT} from "./config";
+import {PORT, IN_PROD} from "./config";
+import http from 'http';
+import {typeDefs, resolvers} from './authentication/graphql/index';
 
 // Express Application
 const app = express();
-
-const typeDefs = gql`
-    type Query {
-        hello: String
-    }
-`;
-
-const resolvers = {
-    Query: {
-        hello: () => 'Hello world',
-    }
-};
+const httpServer = http.createServer(app);
 
 const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: {}
+    plugins: [IN_PROD ? ApolloServerPluginLandingPageGraphQLPlayground() : ApolloServerPluginLandingPageDisabled(),
+        ApolloServerPluginDrainHttpServer({httpServer})],
+    context: {},
 });
 
 const startApp = async () => {
@@ -33,4 +32,5 @@ const startApp = async () => {
         message: `SERVER RUNNING ON PORT ${PORT}`,
     }));
 }
-startApp().then(r => {});
+startApp().then(r => {
+});

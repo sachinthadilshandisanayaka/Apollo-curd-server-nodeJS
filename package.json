@@ -23,5 +23,9 @@
     "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.15",
     "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "apollo-server": "^3.6.1",
+    "apollo-server-core": "^3.6.1"
   }
 }

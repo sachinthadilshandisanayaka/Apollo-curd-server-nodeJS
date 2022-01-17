@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "make-model": "npx sequelize-cli model:generate --name user --attributes email:string",
+    "migrate": "npx sequelize-cli db:migrate",
     "start": "node -r esm .",
     "dev": "nodemon -r esm"
   },
@@ -22,10 +24,14 @@
     "graphql": "^16.2.0",
     "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.15",
+    "pg": "^8.7.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.13.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
     "apollo-server": "^3.6.1",
-    "apollo-server-core": "^3.6.1"
+    "apollo-server-core": "^3.6.1",
+    "sequelize-cli": "^6.4.1"
   }
 }

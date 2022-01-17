@@ -9,11 +9,12 @@ import {
 import express from 'express';
 import {PORT, IN_PROD} from "./config";
 import http from 'http';
-import {typeDefs, resolvers} from './authentication/graphql/index';
+import {typeDefs, resolvers} from './authentication/graphql';
 
 // Express Application
 const app = express();
 const httpServer = http.createServer(app);
+const connect = 'postgresql://postgresql:password@localhost/postgres';
 
 const server = new ApolloServer({
     typeDefs,

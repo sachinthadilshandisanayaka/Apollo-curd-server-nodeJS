@@ -11,10 +11,17 @@ import {PORT, IN_PROD} from "./config";
 import http from 'http';
 import {typeDefs, resolvers} from './authentication/graphql';
 
+// Database
+import db from './config/database';
+
 // Express Application
 const app = express();
 const httpServer = http.createServer(app);
-const connect = 'postgresql://postgresql:password@localhost/postgres';
+
+db.authenticate()
+    .then(() => console.log('Database connected successfully!'))
+    .catch(err => console.log('Error :' + err))
+// const connect = 'postgresql://postgresql:password@localhost/postgres';
 
 const server = new ApolloServer({
     typeDefs,

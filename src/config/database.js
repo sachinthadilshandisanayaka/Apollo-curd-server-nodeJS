@@ -1,5 +1,5 @@
 const sequelize = require('sequelize');
-module.exports = new sequelize('postgres', 'postgres', 'password', {
+export default new sequelize('postgres', 'postgres', 'password', {
     host: '127.0.0.1',
     dialect: 'postgres',
     operatorsAliases: false,

@@ -19,11 +19,13 @@ module.exports = {
             },
             created_at: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.DATE,
+                underscored: true
             },
             updated_at: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.DATE,
+                underscored: true
             }
         });
 
@@ -44,15 +46,18 @@ module.exports = {
                 references: {
                     model: 'user',
                     key: 'id'
-                }
+                },
+                underscored: true
             },
             created_at: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.DATE,
+                underscored: true
             },
             updated_at: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.DATE,
+                underscored: true
             }
         });
 
@@ -73,15 +78,18 @@ module.exports = {
                 references: {
                     model: 'channel',
                     key: 'id'
-                }
+                },
+                underscored: true
             },
             created_at: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.DATE,
+                underscored: true
             },
             updated_at: {
                 allowNull: false,
-                type: Sequelize.DATE
+                type: Sequelize.DATE,
+                underscored: true
             }
         });
     },

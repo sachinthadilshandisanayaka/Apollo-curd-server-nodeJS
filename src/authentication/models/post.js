@@ -1,12 +1,14 @@
 import sequelize from 'sequelize';
 import db from '../../config/database';
 
-const gig = db.define('user', {
+const post_user = db.define('user_ymz', {
     username: {
         type: sequelize.STRING,
     },
     password: {
         type: sequelize.STRING,
     }
+}, {
+    freezeTableName: true,
 });
-export default gig;
+export default post_user;

@@ -1,1 +1,1 @@
-export {Users} from './post';
+export {default as post_user} from './post';

@@ -1,5 +1,10 @@
 export default {
     Query: {
-        hello: () => "Hello from graphql new"
+        getAllUsers: () => {
+            return [{
+                username: "Sachintha",
+                password: "1234",
+            }]
+        }
     }
 }

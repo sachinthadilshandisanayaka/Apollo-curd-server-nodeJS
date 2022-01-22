@@ -1,7 +1,7 @@
 import sequelize from 'sequelize';
 import db from '../../config/database';
 
-const post_user = db.define('user_ymz', {
+const PostUser = db.define('user_ymz', {
     username: {
         type: sequelize.STRING,
     },
@@ -11,4 +11,4 @@ const post_user = db.define('user_ymz', {
 }, {
     freezeTableName: true,
 });
-export default post_user;
+export default PostUser;

@@ -6,6 +6,7 @@ import {
     ApolloServerPluginDrainHttpServer
 } from "apollo-server-core";
 
+import * as AppModels from './authentication/models';
 import express from 'express';
 import {PORT, IN_PROD} from "./config";
 import http from 'http';
@@ -26,7 +27,9 @@ const server = new ApolloServer({
     resolvers,
     plugins: [IN_PROD ? ApolloServerPluginLandingPageGraphQLPlayground() : ApolloServerPluginLandingPageDisabled(),
         ApolloServerPluginDrainHttpServer({httpServer})],
-    context: {},
+    context: {
+        ...AppModels
+    },
 });
 
 const startApp = async () => {

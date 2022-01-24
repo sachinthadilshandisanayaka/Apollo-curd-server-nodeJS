@@ -1,0 +1,48 @@
+mutation ADD_USER {
+    createUser(newUser: { username: "NIMAL", password: "nl1234" }) {
+        username
+        password
+        createdAt
+    }
+}
+
+query GET_ALL_USER {
+    getAllUsers {
+        id
+        username
+        password
+        createdAt
+        updatedAt
+    }
+}
+
+mutation EDIT_USER_BY_ID {
+    editUserByID(
+        updatedUser: { username: "sanju new 2", password: "Admin@123433" }
+        id: "1"
+    ) {
+        id
+        username
+        password
+        createdAt
+        updatedAt
+    }
+}
+
+mutation DELETE_USER_BY_ID {
+    deleteUserByID(id: "9") {
+        id
+        message
+        success
+    }
+}
+
+query FIND_USER_BY_ID {
+    getUserByID(id: "2") {
+        id
+        username
+        password
+        createdAt
+        updatedAt
+    }
+}

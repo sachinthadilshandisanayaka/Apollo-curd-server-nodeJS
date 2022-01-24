@@ -14,7 +14,7 @@ import {typeDefs, resolvers} from './authentication/graphql';
 
 // Database
 import db from './config/database';
-import post_user from "./authentication/models/post";
+import PostUser from "./authentication/models/post";
 
 // Express Application
 const app = express();

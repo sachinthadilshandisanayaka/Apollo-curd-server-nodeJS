@@ -6,16 +6,24 @@ export default gql`
     },
     
     extend type Mutation {
-        createUser(newUser:newUser): Post!
+        createUser(newUser: PostUser!): Post!
+        editUserByID(updatedUser: PostUser, id: ID!): Post!
+        deleteUserByID(id: ID!): PostNotification!
     },
-    input newUser {
+    input PostUser {
         username: String!
         password: String!
     },
     type Post {
+        id: ID!
         username: String!
         password: String!
         createdAt: String
         updatedAt: String
+    }
+    type PostNotification {
+        id: ID!
+        message: String!
+        success: Boolean!
     }
 `;

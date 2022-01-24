@@ -1,13 +1,17 @@
-import {PostUser} from "../../models";
-
 export default {
     Query: {
         getAllUsers: async (_, {}, {PostUser}) => {
             let users = await PostUser.findAll();
             return users;
+        },
+
+        getUserByID: async (_, {id}, {PostUser}) => {
+            let user = await PostUser.findByPk(id);
+            return user;
         }
     },
     Mutation: {
+
         createUser: async (_, {newUser}, {PostUser}, info) => {
             let result = await PostUser.create(newUser);
             return result;
@@ -25,6 +29,7 @@ export default {
                 });
             return PostUser.findByPk(id);
         },
+
         deleteUserByID: async (_, {id}, {PostUser}) => {
             let deletedUser = await PostUser.destroy({where: {id: id}});
             return {

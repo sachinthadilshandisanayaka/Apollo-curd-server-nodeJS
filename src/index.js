@@ -11,6 +11,8 @@ import express from 'express';
 import {PORT, IN_PROD} from "./config";
 import http from 'http';
 import {typeDefs, resolvers} from './authentication/graphql';
+import { join } from 'path';
+import { graphqlUploadExpress } from 'graphql-upload';
 
 // Database
 import db from './config/database';
@@ -18,18 +20,21 @@ import PostUser from "./authentication/models/post";
 
 // Express Application
 const app = express();
+app.use(express.static(join(__dirname, './uploads')));
+app.use(graphqlUploadExpress({ maxFileSize: 1000000000, maxFiles: 10 }));
 const httpServer = http.createServer(app);
 
 // const connect = 'postgresql://postgresql:password@localhost/postgres';
 
 const server = new ApolloServer({
+    uploads: false,
     typeDefs,
     resolvers,
     plugins: [IN_PROD ? ApolloServerPluginLandingPageGraphQLPlayground() : ApolloServerPluginLandingPageDisabled(),
         ApolloServerPluginDrainHttpServer({httpServer})],
     context: {
         ...AppModels
-    },
+    }
 });
 
 const startApp = async () => {

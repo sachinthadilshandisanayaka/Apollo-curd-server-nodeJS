@@ -1,12 +1,38 @@
 import {LoginUser} from "../../models";
 import {ApolloError} from "apollo-server-express";
-import {hash} from 'bcryptjs';
-import { issueToken, serializeUser } from '../../functions/index';
+import {hash, compare} from 'bcryptjs';
+import {issueToken, serializeUser} from '../../functions/index';
 
 export default {
     Query: {
-        infoUserResolvers: () => {
-            return "hello from user!"
+        authenticateLoginUser: async (_, {
+            username,
+            password
+        }, {
+                                          LoginUser
+                                      }) => {
+            try {
+                let user = await LoginUser.findOne({where: {username: username}});
+                if(!user) {
+                    return new Error("User name not found");
+                }
+
+                let isMatch = await compare(password, user.password);
+                if(!isMatch) {
+                    return new Error("Invalid password");
+                }
+
+                user = user.dataValues;
+                user = serializeUser(user);
+                let token = await issueToken(user);
+
+                return {
+                    token,
+                    user: user
+                }
+            } catch (e) {
+                throw new ApolloError(e.me, 404)
+            }
         }
     },
     Mutation: {

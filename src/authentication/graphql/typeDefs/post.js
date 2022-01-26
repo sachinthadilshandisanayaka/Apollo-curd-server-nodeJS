@@ -7,9 +7,9 @@ export default gql`
     },
     
     extend type Mutation {
-        createUser(newUser: PostUser!): Post!
-        editUserByID(updatedUser: PostUser, id: ID!): Post!
-        deleteUserByID(id: ID!): PostNotification!
+        createUser(newUser: PostUser!): Post! @isAuth
+        editUserByID(updatedUser: PostUser, id: ID!): Post! @isAuth
+        deleteUserByID(id: ID!): PostNotification! @isAuth
     },
     input PostUser {
         username: String!

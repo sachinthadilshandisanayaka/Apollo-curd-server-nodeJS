@@ -6,5 +6,6 @@ export const {
     MODE,
     IN_PROD = MODE !== 'prod',
     BASE_URL,
-    URL=`${BASE_URL}${PORT}`
+    URL=`${BASE_URL}${PORT}`,
+    SECRET,
 } = parsed

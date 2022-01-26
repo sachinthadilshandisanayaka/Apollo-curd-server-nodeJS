@@ -1,10 +1,13 @@
-import {LoginUser} from "../../models";
 import {ApolloError} from "apollo-server-express";
 import {hash, compare} from 'bcryptjs';
 import {issueToken, serializeUser} from '../../functions/index';
 
 export default {
     Query: {
+        authUserProfile: async (_, {}, {
+            user
+        }) => user,
+
         authenticateLoginUser: async (_, {
             username,
             password
@@ -13,12 +16,12 @@ export default {
                                       }) => {
             try {
                 let user = await LoginUser.findOne({where: {username: username}});
-                if(!user) {
+                if (!user) {
                     return new Error("User name not found");
                 }
 
                 let isMatch = await compare(password, user.password);
-                if(!isMatch) {
+                if (!isMatch) {
                     return new Error("Invalid password");
                 }
 

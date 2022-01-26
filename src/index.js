@@ -16,7 +16,7 @@ import {graphqlUploadExpress} from 'graphql-upload';
 
 // Database
 import db from './config/database';
-import PostUser from "./authentication/models/post";
+import PostContent from "./authentication/models/post";
 import AuthMiddleware from "./middlewares/auth";
 import {schemaDirectives} from './authentication/graphql/directives';
 
@@ -75,16 +75,4 @@ const startApp = async () => {
         });
     }
 }
-startApp().then(result => {
-    // const data = {
-    //     username: 'Sanju 5',
-    //     password: 'Admin@123444'
-    // }
-    // let { username, password } = data;
-    // post_user.create({
-    //     username: username,
-    //     password: password
-    // })
-    //     .then(result => {console.log(result)})
-    //     .catch(err => console.log(err));
-});
+startApp().then();

@@ -1,41 +1,95 @@
+import {ApolloError} from "apollo-server-express";
+
 export default {
     Query: {
-        getAllUsers: async (_, {}, {PostUser}) => {
-            let users = await PostUser.findAll();
-            return users;
+        getAllContent: async (_, {}, {PostContent}) => {
+            let result = await PostContent.findAll();
+            return result;
         },
 
-        getUserByID: async (_, {id}, {PostUser}) => {
-            let user = await PostUser.findByPk(id);
-            return user;
+        getContentByID: async (_, {id}, {
+            PostContent,
+            user
+        }) => {
+            try {
+                let result = await PostContent.findOne({where: {id: id}});
+                if (!result) {
+                    return new Error("Content can't found");
+                }
+                result.author = user;
+                return result;
+            } catch (e) {
+                throw new ApolloError(e.message, 400);
+            }
         }
     },
     Mutation: {
 
-        createUser: async (_, {newUser}, {PostUser}, info) => {
-            let result = await PostUser.create(newUser);
+        createContent: async (_, {newContent}, {
+            PostContent,
+            user
+        }) => {
+            let result = await PostContent.create({
+                title: newContent.title,
+                description: newContent.description,
+                image: newContent.image,
+                author: user.id,
+            });
+            result.author = user;
             return result;
         },
 
-        editUserByID: async (_, {updatedUser, id}, {PostUser}) => {
-            let editedUser = await PostUser.update(
-                {
-                    username: updatedUser.username,
-                    password: updatedUser.password
-                },
-                {
-                    where: {id: id},
-                    returning: true,
-                });
-            return PostUser.findByPk(id);
+        editContentByID: async (_, {updatedContent, id}, {
+            PostContent,
+            user
+        }) => {
+            try {
+                let editedUser = await PostContent.update(
+                    {
+                        title: updatedContent.title,
+                        description: updatedContent.description,
+                        author: updatedContent.author,
+                        image: updatedContent.image,
+                    },
+                    {
+                        where: {
+                            id: id,
+                            author: user.id
+                        },
+                        returning: true,
+                    });
+                if (!editedUser) {
+                    return new Error("Unable to edit content");
+                }
+                return PostContent.findByPk(id);
+            } catch (e) {
+                throw new ApolloError(e.message, 400);
+            }
         },
 
-        deleteUserByID: async (_, {id}, {PostUser}) => {
-            let deletedUser = await PostUser.destroy({where: {id: id}});
-            return {
-                id: id,
-                success: true,
-                message: "Your Post is Deleted"
+        deleteContentByID: async (_, {id}, {
+            PostContent,
+            user
+        }) => {
+            try {
+                let deletedContent = await PostContent.destroy(
+                    {
+                        where:
+                            {
+                                id: id,
+                                author: user.id
+                            }
+                    });
+                if (!deletedContent) {
+                    return new Error("Unable to delete content");
+                }
+                return {
+                    id: id,
+                    success: true,
+                    message: "Your Post is Deleted"
+                }
+            } catch (e) {
+                throw new ApolloError(e.message, 400);
             }
         }
     }

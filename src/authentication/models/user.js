@@ -2,6 +2,11 @@ import sequelize from 'sequelize';
 import db from '../../config/database';
 
 const LoginUser = db.define('login_yumzy', {
+    id: {
+        type: sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
     username: {
         type: sequelize.STRING,
     },

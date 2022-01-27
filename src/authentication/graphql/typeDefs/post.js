@@ -4,6 +4,7 @@ export default gql`
     extend type Query {
         getAllContent: [Post!]!
         getContentByID(id: ID!): Post!
+        paginationContentList: [PaginatedPostList!]! @isAuth
     },
     
     extend type Mutation {
@@ -29,5 +30,9 @@ export default gql`
         id: ID!
         message: String!
         success: Boolean!
+    },
+    type PaginatedPostList {
+        count: Int!
+        body: [Post!]!
     }
 `;

@@ -17,12 +17,12 @@ export default {
             try {
                 let user = await LoginUser.findOne({where: {username: username}});
                 if (!user) {
-                    return new Error("User name not found");
+                    return new ApolloError("User name not found",400);
                 }
 
                 let isMatch = await compare(password, user.password);
                 if (!isMatch) {
-                    return new Error("Invalid password");
+                    return new ApolloError("Invalid password",400);
                 }
 
                 user = user.dataValues;
@@ -34,7 +34,7 @@ export default {
                     user: user
                 }
             } catch (e) {
-                throw new ApolloError(e.me, 404)
+                throw new ApolloError(e.me, 403)
             }
         }
     },
@@ -50,12 +50,12 @@ export default {
 
                 user = await LoginUser.findOne({where: {username: username}});
                 if (user) {
-                    return new Error("User name is already taken");
+                    return new ApolloError("User name is already taken",400);
                 }
 
                 user = await LoginUser.findOne({where: {email: email}});
                 if (user) {
-                    return new Error("Email is already taken");
+                    return new ApolloError("Email is already taken",400);
                 }
 
                 user = new LoginUser(newUser);
@@ -72,7 +72,7 @@ export default {
                     user: result
                 }
             } catch (e) {
-                throw new ApolloError(e.message, 400);
+                throw new ApolloError(e.message, 403);
             }
         }
     }

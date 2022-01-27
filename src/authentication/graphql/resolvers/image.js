@@ -2,6 +2,7 @@ import {parse, join} from 'path';
 import {createWriteStream} from 'fs';
 import {URL} from "../../../config";
 import {GraphQLUpload} from "graphql-upload";
+import {ApolloError} from "apollo-server-express";
 
 export default {
     Upload: GraphQLUpload,
@@ -36,8 +37,7 @@ export default {
 
                 return serverFile;
             } catch (e) {
-                console.log("ERROR UPLOAD A IMAGE", e);
-                throw e;
+                throw new ApolloError(e.message, 403);
             }
         }
     }

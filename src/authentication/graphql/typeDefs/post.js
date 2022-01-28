@@ -3,14 +3,18 @@ import {gql} from "apollo-server-express";
 export default gql`
     extend type Query {
         getAllContent: [Post!]!
-        getContentByID(id: ID!): Post!
-        paginationContentList: [PaginatedPostList!]! @isAuth
+        getContentByID(id: ID!): ContentBody!
+        paginationContentList(searchParams: SearchParams!): [PaginatedPostList!]! @isAuth
     },
     
     extend type Mutation {
         createContent(newContent: PostContent!): Post! @isAuth
         editContentByID(updatedContent: PostContent, id: ID!): Post! @isAuth
         deleteContentByID(id: ID!): PostNotification! @isAuth
+    },
+    input SearchParams {
+        page: Int!
+        size: Int!
     },
     input PostContent {
         title: String!
@@ -25,7 +29,17 @@ export default gql`
         image: String
         createdAt: String
         updatedAt: String
-    }
+    },
+    type ContentBody {
+        id: ID!
+        title: String!
+        description: String!
+        author: Int!
+        image: String
+        createdAt: String
+        updatedAt: String
+        login_yumzy: User!
+    },
     type PostNotification {
         id: ID!
         message: String!
@@ -33,6 +47,7 @@ export default gql`
     },
     type PaginatedPostList {
         count: Int!
+        totalPages: Int!
         body: [Post!]!
-    }
+    },
 `;

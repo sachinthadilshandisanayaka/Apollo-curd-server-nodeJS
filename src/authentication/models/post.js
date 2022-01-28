@@ -33,9 +33,11 @@ const PostContent = db.define('post_yumzy', {
     {
         getterMethods: {
             authorData: function (id) {
-                console.log(LoginUser.findByPk({id: id}));
-                return LoginUser.findByPk({id: id});
+                return LoginUser.findOne({where: {id: id}});
             }
         }
-    });
+    },
+);
+PostContent.belongsTo(LoginUser, { foreignKey: 'author', targetKey: 'id'});
+LoginUser.hasMany(PostContent, {foreignKey: 'id'});
 export default PostContent;

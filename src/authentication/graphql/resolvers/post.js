@@ -20,31 +20,66 @@ export default {
             user
         }) => {
             try {
-                let result = await PostContent.findOne({where: {id: id}});
-                if (!result) {
-                    return new ApolloError("Content can't found", 404);
-                }
-                const authorId = result.author;
-                result.author = await LoginUser.findOne({
-                    where:
-                        {
-                            id: authorId
-                        }
-                });
+                // let result = await PostContent.findOne({where: {id: id}});
+                // if (!result) {
+                //     return new ApolloError("Content can't found", 404);
+                // }
+                // const authorId = result.author;
+                // result.author = await LoginUser.findOne({
+                //     where:
+                //         {
+                //             id: authorId
+                //         }
+                // });
+                // console.log("GETTER_METHOD", PostContent.getterMethods.authorData(authorId));
+                // return result;
+
+                let result = await PostContent.findOne(
+                    {
+                        where:
+                            {
+                                id: id
+                            },
+                        include: [
+                            {
+                                model: LoginUser
+                            }
+                        ]
+                    }
+                );
                 return result;
             } catch (e) {
                 throw new ApolloError(e.message, 403);
             }
         },
 
-        paginationContentList: async (_, {}, {PostContent}) => {
-            let result = await PostContent.findAndCountAll({
-                offset: 5
-            });
-            return [{
-                count: result.count,
-                body: result.rows
-            }];
+        paginationContentList: async (_, {searchParams}, {PostContent}) => {
+            try {
+                let page = 0;
+                let size = 0;
+                const pageAsNumber = Number.parseInt(searchParams.page);
+                const sizeAsNumber = Number.parseInt(searchParams.size);
+
+                if (!Number.isNaN(pageAsNumber) && pageAsNumber > 0) {
+                    page = pageAsNumber - 1;
+                }
+
+                if (!Number.isNaN(sizeAsNumber) && sizeAsNumber > 0) {
+                    size = sizeAsNumber;
+                }
+
+                let result = await PostContent.findAndCountAll({
+                    limit: size,
+                    offset: page * size
+                });
+                return [{
+                    count: result.count,
+                    totalPages: Math.ceil(result.count / size),
+                    body: result.rows
+                }];
+            } catch (e) {
+                throw new ApolloError(e.message, 403);
+            }
         },
     },
     Mutation: {

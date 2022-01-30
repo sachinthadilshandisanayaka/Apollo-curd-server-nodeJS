@@ -38,6 +38,6 @@ const PostContent = db.define('post_yumzy', {
         }
     },
 );
-PostContent.belongsTo(LoginUser, { foreignKey: 'author', targetKey: 'id'});
+PostContent.belongsTo(LoginUser, { foreignKey: 'author', targetKey: 'id', as: 'authorData'});
 LoginUser.hasMany(PostContent, {foreignKey: 'id'});
 export default PostContent;

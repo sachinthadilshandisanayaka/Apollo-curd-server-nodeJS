@@ -1,17 +1,25 @@
 import {ApolloError} from "apollo-server-express";
 import {LoginUser, PostContent} from "../../models";
+import {AUTHOR_DETAILS} from "../../../config";
 
 export default {
     Query: {
         getAllContent: async (_, {}, {PostContent}) => {
             try {
+                // let result = await PostContent.findAll({
+                //     include: [
+                //         {
+                //             model: LoginUser
+                //         }
+                //     ]
+                // });
                 let result = await PostContent.findAll({
-                    include: [
-                        {
-                            model: LoginUser
-                        }
-                    ]
+                    include: {
+                        model: LoginUser,
+                        as: 'authorData'
+                    }
                 });
+                console.log(result);
                 if (!result) {
                     return new ApolloError("Contents can't found", 404);
                 }
@@ -48,7 +56,8 @@ export default {
                             },
                         include: [
                             {
-                                model: LoginUser
+                                model: LoginUser,
+                                as: 'authorData'
                             }
                         ]
                     }

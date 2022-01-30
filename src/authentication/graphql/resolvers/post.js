@@ -5,7 +5,13 @@ export default {
     Query: {
         getAllContent: async (_, {}, {PostContent}) => {
             try {
-                let result = await PostContent.findAll();
+                let result = await PostContent.findAll({
+                    include: [
+                        {
+                            model: LoginUser
+                        }
+                    ]
+                });
                 if (!result) {
                     return new ApolloError("Contents can't found", 404);
                 }

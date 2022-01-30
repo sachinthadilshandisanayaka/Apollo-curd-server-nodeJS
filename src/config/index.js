@@ -8,4 +8,5 @@ export const {
     BASE_URL,
     URL=`${BASE_URL}${PORT}`,
     SECRET,
+    AUTHOR_DETAILS
 } = parsed

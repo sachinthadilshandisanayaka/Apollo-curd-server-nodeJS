@@ -38,7 +38,7 @@ mutation DELETE_USER_BY_ID {
 }
 
 query FIND_USER_BY_ID {
-    getUserByID(id: "2") {
+    getUserByID(id: 2) {
         id
         username
         password

@@ -38,7 +38,7 @@ export default gql`
         image: String
         createdAt: String
         updatedAt: String
-        login_yumzy: User!
+        authorData: User!
     },
     type PostNotification {
         id: ID!

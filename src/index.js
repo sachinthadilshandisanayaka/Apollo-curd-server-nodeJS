@@ -16,7 +16,6 @@ import {graphqlUploadExpress} from 'graphql-upload';
 
 // Database
 import db from './config/database';
-import PostContent from "./authentication/models/post";
 import AuthMiddleware from "./middlewares/auth";
 import {schemaDirectives} from './authentication/graphql/directives';
 

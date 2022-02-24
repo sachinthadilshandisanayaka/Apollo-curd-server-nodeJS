@@ -8,21 +8,24 @@ export default {
             user
         }) => user,
 
-        authenticateLoginUser: async (_, {
-            username,
-            password
-        }, {
+        authenticateLoginUser: async (_,
+                                      {
+                                          username,
+                                          password
+                                      },
+                                      {
                                           LoginUser
-                                      }) => {
+                                      }
+        ) => {
             try {
                 let user = await LoginUser.findOne({where: {username: username}});
                 if (!user) {
-                    return new ApolloError("User name not found",400);
+                    return new ApolloError("User name not found", 400);
                 }
 
                 let isMatch = await compare(password, user.password);
                 if (!isMatch) {
-                    return new ApolloError("Invalid password",400);
+                    return new ApolloError("Invalid password", 400);
                 }
 
                 user = user.dataValues;
@@ -34,28 +37,39 @@ export default {
                     user: user
                 }
             } catch (e) {
-                throw new ApolloError(e.me, 403)
+                throw new ApolloError(e.message, 403)
             }
         }
     },
     Mutation: {
-        registerLoginUser: async (_, {
-            newUser
-        }, {
+        test: async (_, args, context, info) => {
+            console.log("_", _);
+            console.log("AGRS", args);
+            console.log("CONTEXT", context);
+            console.log("INFO", info);
+            return "Test Mutation";
+        },
+        registerLoginUser: async (_,
+                                  {
+                                      newUser
+                                  },
+                                  {
                                       LoginUser
-                                  }) => {
+                                  }
+        ) => {
             try {
+                console.log(LoginUser);
                 let {username, email} = newUser;
                 let user;
 
                 user = await LoginUser.findOne({where: {username: username}});
                 if (user) {
-                    return new ApolloError("User name is already taken",400);
+                    return new ApolloError("User name is already taken", 400);
                 }
 
                 user = await LoginUser.findOne({where: {email: email}});
                 if (user) {
-                    return new ApolloError("Email is already taken",400);
+                    return new ApolloError("Email is already taken", 400);
                 }
 
                 user = new LoginUser(newUser);

@@ -6,6 +6,7 @@ export default gql`
         authenticateLoginUser(username: String!, password: String!): AuthResp!
     }
     extend type Mutation {
+        test: String!
         registerLoginUser(newUser: UserInput!): AuthResp!
     }
     input UserInput {
